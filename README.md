@@ -1,70 +1,28 @@
-sa# \# Heart\_attack\_pred
+# Heart Attack Risk Prediction – ML End-to-End Pipeline
 
-# 
+Predict the probability of a heart attack from clinical features and serve results through a React + FastAPI web stack.
 
-# \&gt; One-sentence elevator pitch of what your model / app does.
+## Description
+This project uses the *Heart Attack Prediction Dataset* to build a binary-classification model that estimates patient risk.  
+We follow a 7-week agile roadmap: EDA → preprocessing → gradient-boosting modelling (tracked with MLflow) → REST API → React dashboard → Docker containerisation → cloud deployment.
 
-# 
+## Dataset
+| Source | Link | Rows | Features | License |
+|--------|------|------|----------|---------|
+| Kaggle | [Heart Attack Prediction Dataset](https://www.kaggle.com/datasets/iamsouravbanerjee/heart-attack-prediction-dataset) | 1 319 | 14 (numeric + categorical) | [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) |
 
-# \## Description
+**Target:** `HeartDisease` (0 = no heart attack, 1 = heart attack)  
+**Key predictors:** age, sex, chest-pain type, cholesterol, fasting blood sugar, max heart rate, etc.
 
-# \[2–3 sentences explaining the business problem, the data you use, and the ML goal.]
+## 7-Week Roadmap
+| Week | Milestone | Deliverable |
+|------|-----------|-------------|
+| 1 | Scraping & EDA | Jupyter notebook with univariate + bivariate plots, data-quality report |
+| 2 | Pre-processing & Feature Engineering | Clean pipeline (`src/preprocess.py`), engineered features stored in `data/processed/` |
+| 3 | Modelling (Gradient Boosting) & MLflow | Tuned CatBoost / XGBoost, registered in MLflow, `metrics.txt` |
+| 4 | API Development (FastAPI) | `/predict` endpoint with input validation & automated tests |
+| 5 | Frontend Development (React) | Single-page app: form input → probability gauge → risk interpretation |
+| 6 | Containerisation (Docker) | `docker-compose up` spins up API + React + Postgres for logs |
+| 7 | Deployment & Final Review | App live on Render (or AWS EC2), slides + demo video |
 
-# 
-
-# Example:  
-
-# We predict the likelihood of customer churn for a Portuguese banking institution using demographic and behavioural features.  
-
-# The end-product is a REST API served behind a lightweight React dashboard that allows marketers to upload new customer lists and receive churn probabilities in real time.
-
-# 
-
-# \## Dataset
-
-# | Source | Link | Size | License |
-
-# |--------|------|------|---------|
-
-# | \[Bank Marketing UCI] | https://archive.ics.uci.edu/ml/datasets/bank+marketing | 45 211 rows × 21 cols | CC BY 4.0 |
-
-# 
-
-# (Include a short “Data dictionary” subsection here if you wish.)
-
-# 
-
-# \## 7-Week Roadmap
-
-# | Week | Milestone | Deliverable |
-
-# |------|-----------|-------------|
-
-# | 1 | Scraping \& EDA | Jupyter notebook with visualisations + data report |
-
-# | 2 | Pre-processing \& Feature Engineering | Clean pipeline + engineered features stored in `data/processed/` |
-
-# | 3 | Modelling (Gradient Boosting) \& MLflow | Best model registered in MLflow, `metrics.txt` |
-
-# | 4 | API (FastAPI) | `/predict` endpoint + automated tests |
-
-# | 5 | Frontend (React) | Single-page app that consumes the API |
-
-# | 6 | Containerisation (Docker) | `docker-compose up` spins up full stack |
-
-# | 7 | Deployment \& Review | App live on AWS / Render + final presentation |
-
-# 
-
-# \## Quick Start
-
-# ```bash
-
-# git clone https://github.com/YOUR\_GITHUB\_HANDLE/YOUR\_REPO\_NAME.git
-
-# cd YOUR\_REPO\_NAME
-
-# python -m venv venv \&\& source venv/bin/activate
-
-# pip install -r requirements.txt
-
+## Project Structure
