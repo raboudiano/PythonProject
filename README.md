@@ -25,10 +25,12 @@ Survival Analysis → Estimate time-to-event using N_Days
 
 The project follows a structured data science roadmap:
 EDA → Preprocessing → Feature Engineering → Modeling → Evaluation → API → Frontend → Deployment
+
 📊 Dataset Overview
-Source	Link	Records	Features
-UCI Machine Learning Repository	Cirrhosis Patient Survival Prediction Dataset
-	418 patients	20 clinical & laboratory variables
+| Source                          | Link                                                                                                                                     | Records      | Features                           |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------- |
+| UCI Machine Learning Repository | [Cirrhosis Patient Survival Prediction Dataset](https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1) | 418 patients | 20 clinical & laboratory variables |
+
 
 This dataset contains medical records of patients with liver cirrhosis, including demographic data, laboratory test results, clinical findings, and survival outcomes.
 
