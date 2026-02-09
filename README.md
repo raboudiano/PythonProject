@@ -61,6 +61,7 @@ Survival
 N_Days (Time until death, transplant, or study end)
 
 🚀 Project Objectives
+
 1️⃣ Mortality Risk Prediction (Binary Classification)
 
 Predict whether a patient is at risk of death.
@@ -120,15 +121,25 @@ Risk scoring
 Hazard ratios interpretation
 
 🗺 Roadmap
+
 Phase	Deliverable
+
 EDA	Data exploration notebook with distribution plots, missing value analysis
+
 Preprocessing	Clean pipeline (src/preprocess.py)
+
 Feature Engineering	Encoded categorical features, scaled lab variables
+
 Modeling	Tuned ML models + cross-validation
+
 Survival Analysis	Cox model + Kaplan-Meier plots
+
 API (FastAPI)	/predict_status, /predict_stage, /predict_survival endpoints
+
 Frontend (React)	Risk dashboard + survival probability visualization
+
 Deployment	Dockerized stack + cloud deployment
+
 🏗 Tech Stack
 
 Python (pandas, scikit-learn, lifelines, XGBoost)
