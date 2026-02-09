@@ -1,28 +1,176 @@
-# Heart Attack Risk Prediction – ML End-to-End Pipeline
+🧬 Liver Disease Outcome & Survival Prediction – End-to-End ML Pipeline
 
-Predict the probability of a heart attack from clinical features and serve results through a React + FastAPI web stack.
+Predict patient mortality risk, disease stage, and survival time using clinical and laboratory features.
+Built with a complete Data Science workflow and deployed through a React + FastAPI stack.
 
-## Description
-This project uses the *Heart Attack Prediction Dataset* to build a binary-classification model that estimates patient risk.  
-We follow a 7-week agile roadmap: EDA → preprocessing → gradient-boosting modelling (tracked with MLflow) → REST API → React dashboard → Docker containerisation → cloud deployment.
+👨‍💻 Team
 
-## Dataset
-| Source | Link | Rows | Features | License |
-|--------|------|------|----------|---------|
-| Kaggle | [Heart Attack Prediction Dataset](https://www.kaggle.com/datasets/iamsouravbanerjee/heart-attack-prediction-dataset) | 1 319 | 14 (numeric + categorical) | [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) |
+Ibrahim Raboudi
 
-**Target:** `HeartDisease` (0 = no heart attack, 1 = heart attack)  
-**Key predictors:** age, sex, chest-pain type, cholesterol, fasting blood sugar, max heart rate, etc.
+Anas Kareem
 
-## 7-Week Roadmap
-| Week | Milestone | Deliverable |
-|------|-----------|-------------|
-| 1 | Scraping & EDA | Jupyter notebook with univariate + bivariate plots, data-quality report |
-| 2 | Pre-processing & Feature Engineering | Clean pipeline (`src/preprocess.py`), engineered features stored in `data/processed/` |
-| 3 | Modelling (Gradient Boosting) & MLflow | Tuned CatBoost / XGBoost, registered in MLflow, `metrics.txt` |
-| 4 | API Development (FastAPI) | `/predict` endpoint with input validation & automated tests |
-| 5 | Frontend Development (React) | Single-page app: form input → probability gauge → risk interpretation |
-| 6 | Containerisation (Docker) | `docker-compose up` spins up API + React + Postgres for logs |
-| 7 | Deployment & Final Review | App live on Render (or AWS EC2), slides + demo video |
+Othmen Chtiui
 
-## Project Structure
+📌 Description
+
+This project is based on a clinical liver disease dataset containing demographic, laboratory, and histologic variables.
+
+We build three complementary predictive systems:
+
+Binary Classification → Predict patient mortality (Status)
+
+Multi-class Classification → Predict disease stage (Stage)
+
+Survival Analysis → Estimate time-to-event using N_Days
+
+The project follows a structured data science roadmap:
+EDA → Preprocessing → Feature Engineering → Modeling → Evaluation → API → Frontend → Deployment
+📊 Dataset Overview
+Variable Type	Examples
+Demographic	Age, Sex
+Clinical Signs	Ascites, Hepatomegaly, Edema
+Lab Values	Bilirubin, Cholesterol, Albumin, Copper
+Blood Tests	SGOT, Platelets, Prothrombin
+Target Variables	Status, Stage, N_Days
+🎯 Targets
+
+Status
+
+C = Censored
+
+CL = Censored (Liver transplant)
+
+D = Death
+
+Stage
+
+1 → Early stage
+
+4 → Advanced liver disease
+
+Survival
+
+N_Days (Time until death, transplant, or study end)
+
+🚀 Project Objectives
+1️⃣ Mortality Risk Prediction (Binary Classification)
+
+Predict whether a patient is at risk of death.
+
+Models:
+
+Logistic Regression
+
+Random Forest
+
+XGBoost / CatBoost
+
+Metrics:
+
+Accuracy
+
+Recall (critical in medical context)
+
+F1-score
+
+ROC-AUC
+
+2️⃣ Disease Stage Prediction (Multi-Class Classification)
+
+Predict histologic stage (1–4) from medical indicators.
+
+Models:
+
+Random Forest
+
+Gradient Boosting
+
+Multi-class XGBoost
+
+Metrics:
+
+Accuracy
+
+Confusion Matrix
+
+Macro F1-score
+
+3️⃣ Survival Analysis (Advanced Modeling)
+
+Estimate survival probability over time using:
+
+Kaplan–Meier Curves
+
+Cox Proportional Hazards Model
+
+This provides:
+
+Survival probability estimation
+
+Risk scoring
+
+Hazard ratios interpretation
+
+🗺 Roadmap
+Phase	Deliverable
+EDA	Data exploration notebook with distribution plots, missing value analysis
+Preprocessing	Clean pipeline (src/preprocess.py)
+Feature Engineering	Encoded categorical features, scaled lab variables
+Modeling	Tuned ML models + cross-validation
+Survival Analysis	Cox model + Kaplan-Meier plots
+API (FastAPI)	/predict_status, /predict_stage, /predict_survival endpoints
+Frontend (React)	Risk dashboard + survival probability visualization
+Deployment	Dockerized stack + cloud deployment
+🏗 Tech Stack
+
+Python (pandas, scikit-learn, lifelines, XGBoost)
+
+FastAPI
+
+React
+
+Docker
+
+MLflow (experiment tracking)
+
+📂 Project Structure
+project-root/
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── notebooks/
+│   ├── 01_eda.ipynb
+│   ├── 02_preprocessing.ipynb
+│   ├── 03_status_model.ipynb
+│   ├── 04_stage_model.ipynb
+│   └── 05_survival_analysis.ipynb
+│
+├── src/
+│   ├── preprocess.py
+│   ├── train_status.py
+│   ├── train_stage.py
+│   ├── survival_model.py
+│   └── utils.py
+│
+├── api/
+│   └── main.py
+│
+├── frontend/
+│   └── react-app/
+│
+├── docker-compose.yml
+└── README.md
+
+📈 Expected Impact
+
+This system helps:
+
+Identify high-risk patients early
+
+Support medical decision-making
+
+Provide survival probability estimation
+
+Assist in treatment prioritization
