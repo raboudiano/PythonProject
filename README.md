@@ -133,35 +133,6 @@ Docker
 
 MLflow (experiment tracking)
 
-📂 Project Structure
-project-root/
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_preprocessing.ipynb
-│   ├── 03_status_model.ipynb
-│   ├── 04_stage_model.ipynb
-│   └── 05_survival_analysis.ipynb
-│
-├── src/
-│   ├── preprocess.py
-│   ├── train_status.py
-│   ├── train_stage.py
-│   ├── survival_model.py
-│   └── utils.py
-│
-├── api/
-│   └── main.py
-│
-├── frontend/
-│   └── react-app/
-│
-├── docker-compose.yml
-└── README.md
 
 📈 Expected Impact
 
