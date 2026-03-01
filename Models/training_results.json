@@ -1,0 +1,56 @@
+{
+  "Logistic Regression": {
+    "metrics": {
+      "train_accuracy": 0.8846153846153846,
+      "test_accuracy": 0.7878787878787878,
+      "test_precision": 0.7778656126482214,
+      "test_recall": 0.7878787878787878,
+      "test_f1": 0.7805716741886954
+    }
+  },
+  "Random Forest": {
+    "metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.6666666666666666,
+      "test_precision": 0.6287046287046287,
+      "test_recall": 0.6666666666666666,
+      "test_f1": 0.6464646464646465
+    }
+  },
+  "Gradient Boosting": {
+    "metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.6060606060606061,
+      "test_precision": 0.6347107438016529,
+      "test_recall": 0.6060606060606061,
+      "test_f1": 0.6183574879227054
+    }
+  },
+  "XGBoost": {
+    "metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.6060606060606061,
+      "test_precision": 0.6564102564102564,
+      "test_recall": 0.6060606060606061,
+      "test_f1": 0.621277712186803
+    }
+  },
+  "LightGBM": {
+    "metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.6363636363636364,
+      "test_precision": 0.6695526695526697,
+      "test_recall": 0.6363636363636364,
+      "test_f1": 0.6464646464646464
+    }
+  },
+  "SVM": {
+    "metrics": {
+      "train_accuracy": 0.8769230769230769,
+      "test_accuracy": 0.696969696969697,
+      "test_precision": 0.6633366633366633,
+      "test_recall": 0.696969696969697,
+      "test_f1": 0.6787878787878788
+    }
+  }
+}
