@@ -1,166 +1,133 @@
-🧬 Liver Disease Outcome & Survival Prediction – End-to-End ML Pipeline
+# 🧬 Cirrhosis Prediction Project
 
-Predict patient mortality risk, disease stage, and survival time using clinical and laboratory features.
-Built with a complete Data Science workflow and deployed through a React + FastAPI stack.
+Clean end-to-end ML pipeline for liver cirrhosis data, with a deployable FastAPI service that auto-selects the best model.
 
-👨‍💻 Team
+## What this project does
 
-Ibrahim Raboudi
+- Cleans and preprocesses cirrhosis data
+- Trains multiple classification models
+- Compares model metrics and selects the best model by `test_f1`
+- Serves predictions through a FastAPI API
+- Provides Swagger docs and a minimal frontend for quick testing
+- Supports local and Docker execution
 
-Anas Kareem
+## Current deployed scope
 
-Othmen Chtioui 
+The current deployed API focuses on **Status prediction** (target: `Status`).
 
-📌 Description
+Best model is selected from:
+- `Models/training_results.json`
 
-This project is based on a clinical liver disease dataset containing demographic, laboratory, and histologic variables.
+Deployment artifacts are stored in:
+- `Models/best_model_bundle.joblib`
+- `Models/best_model_metadata.json`
 
-We build three complementary predictive systems:
+## Project structure (important files)
 
-Binary Classification → Predict patient mortality (Status)
+- `main.py` → full data pipeline runner
+- `model_training.py` → model training/comparison logic
+- `deploy_model.py` → best-model selection and bundle persistence
+- `api.py` → FastAPI app and endpoints
+- `frontend/index.html` → minimal UI for manual prediction testing
+- `requirements-api.txt` → API runtime dependencies
+- `Dockerfile` / `docker-compose.yml` → containerized deployment
 
-Multi-class Classification → Predict disease stage (Stage)
+## API endpoints
 
-Survival Analysis → Estimate time-to-event using N_Days
+- `GET /health`
+- `GET /model/info`
+- `GET /model/sample-input`
+- `POST /predict`
 
-The project follows a structured data science roadmap:
-EDA → Preprocessing → Feature Engineering → Modeling → Evaluation → API → Frontend → Deployment
+Swagger UI:
+- `http://127.0.0.1:8000/docs`
 
-📊 Dataset Overview
-| Source                          | Link                                                                                                                                     | Records      | Features                           |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------- |
-| UCI Machine Learning Repository | [Cirrhosis Patient Survival Prediction Dataset](https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1) | 418 patients | 20 clinical & laboratory variables |
+Frontend:
+- `http://127.0.0.1:8000/`
 
+## Local run
 
-This dataset contains medical records of patients with liver cirrhosis, including demographic data, laboratory test results, clinical findings, and survival outcomes.
+```bash
+pip install -r requirements-api.txt
+uvicorn api:app --reload
+```
 
-Variable Type	Examples
-Demographic	Age, Sex
-Clinical Signs	Ascites, Hepatomegaly, Edema
-Lab Values	Bilirubin, Cholesterol, Albumin, Copper
-Blood Tests	SGOT, Platelets, Prothrombin
-Target Variables	Status, Stage, N_Days
-🎯 Targets
+Then open:
+- Swagger: `http://127.0.0.1:8000/docs`
+- Frontend: `http://127.0.0.1:8000/`
 
-Status
+## Docker run
 
-C = Censored
+```bash
+docker compose up --build
+```
 
-CL = Censored (Liver transplant)
+Then open:
+- API: `http://127.0.0.1:8000`
+- Swagger: `http://127.0.0.1:8000/docs`
+- Frontend: `http://127.0.0.1:8000/`
 
-D = Death
+## How to test (recommended order)
 
-Stage
+### 1) Test in Swagger first
 
-1 → Early stage
+1. Open `http://127.0.0.1:8000/docs`
+2. Execute `GET /health`
+3. Execute `GET /model/sample-input`
+4. Copy response JSON
+5. Execute `POST /predict` with that JSON
 
-4 → Advanced liver disease
+Expected result:
+- HTTP 200 with predicted class and probabilities
 
-Survival
+### 2) Test in frontend
 
-N_Days (Time until death, transplant, or study end)
+1. Open `http://127.0.0.1:8000/`
+2. Click **Load Sample**
+3. (Optional) edit feature values
+4. Click **Predict**
+5. Check response panel
 
-🚀 Project Objectives
+## Roadmap
 
-1️⃣ Mortality Risk Prediction (Binary Classification)
+### Phase 1 — Core API (Done)
 
-Predict whether a patient is at risk of death.
+- Data cleaning + model comparison pipeline
+- Best model auto-selection by `test_f1`
+- FastAPI endpoints + Swagger docs
+- Minimal frontend for quick testing
+- Docker setup for deployment
 
-Models:
+### Phase 2 — Model Quality (Next)
 
-Logistic Regression
+- Add cross-validation summary to API metadata
+- Add model versioning in metadata file
+- Add confidence threshold handling for uncertain predictions
 
-Random Forest
+### Phase 3 — Productization
 
-XGBoost / CatBoost
+- Add authentication for protected API usage
+- Add request logging and prediction monitoring
+- Add CI checks for lint, tests, and container build
 
-Metrics:
+### Phase 4 — Feature Expansion
 
-Accuracy
+- Add `Stage` prediction endpoint
+- Add survival analysis endpoint (`N_Days`)
+- Add richer frontend dashboard while keeping current minimal mode
 
-Recall (critical in medical context)
+## Notes
 
-F1-score
+- If port `8000` is busy, stop old process or run on another port:
 
-ROC-AUC
+```bash
+uvicorn api:app --reload --port 8001
+```
 
-2️⃣ Disease Stage Prediction (Multi-Class Classification)
+- The API validates feature keys strictly. Missing/extra fields return `422`.
 
-Predict histologic stage (1–4) from medical indicators.
+## Team
 
-Models:
-
-Random Forest
-
-Gradient Boosting
-
-Multi-class XGBoost
-
-Metrics:
-
-Accuracy
-
-Confusion Matrix
-
-Macro F1-score
-
-3️⃣ Survival Analysis (Advanced Modeling)
-
-Estimate survival probability over time using:
-
-Kaplan–Meier Curves
-
-Cox Proportional Hazards Model
-
-This provides:
-
-Survival probability estimation
-
-Risk scoring
-
-Hazard ratios interpretation
-
-🗺 Roadmap
-
-Phase	Deliverable
-
-EDA	Data exploration notebook with distribution plots, missing value analysis
-
-Preprocessing	Clean pipeline (src/preprocess.py)
-
-Feature Engineering	Encoded categorical features, scaled lab variables
-
-Modeling	Tuned ML models + cross-validation
-
-Survival Analysis	Cox model + Kaplan-Meier plots
-
-API (FastAPI)	/predict_status, /predict_stage, /predict_survival endpoints
-
-Frontend (React)	Risk dashboard + survival probability visualization
-
-Deployment	Dockerized stack + cloud deployment
-
-🏗 Tech Stack
-
-Python (pandas, scikit-learn, lifelines, XGBoost)
-
-FastAPI
-
-React
-
-Docker
-
-MLflow (experiment tracking)
-
-
-📈 Expected Impact
-
-This system helps:
-
-Identify high-risk patients early
-
-Support medical decision-making
-
-Provide survival probability estimation
-
-Assist in treatment prioritization
+- Ibrahim Raboudi
+- Anas Kareem
+- Othmen Chtioui

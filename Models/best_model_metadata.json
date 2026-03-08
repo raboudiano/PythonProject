@@ -1,0 +1,31 @@
+{
+  "selected_model": "Logistic Regression",
+  "selection_metric": "test_f1",
+  "bundle_path": "Models\\best_model_bundle.joblib",
+  "trained_metrics": {
+    "test_accuracy": 0.7878787878787878,
+    "test_precision": 0.7778656126482214,
+    "test_recall": 0.7878787878787878,
+    "test_f1": 0.7805716741886954
+  },
+  "default_input": {
+    "N_Days": 1899.0,
+    "Drug": 0.0,
+    "Age": 18993.0,
+    "Sex": 0.0,
+    "Ascites": 0.0,
+    "Hepatomegaly": 1.0,
+    "Spiders": 0.0,
+    "Edema": 0.0,
+    "Bilirubin": 1.0,
+    "Cholesterol": 309.5,
+    "Albumin": 3.58,
+    "Copper": 73.0,
+    "Alk_Phos": 1259.0,
+    "SGOT": 114.7,
+    "Tryglicerides": 108.0,
+    "Platelets": 243.0,
+    "Prothrombin": 10.5,
+    "Stage": 3.0
+  }
+}

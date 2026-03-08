@@ -1,0 +1,12 @@
+services:
+  cirrhosis-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cirrhosis-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Models:/app/Models
+      - ./Data:/app/Data
+    restart: unless-stopped
