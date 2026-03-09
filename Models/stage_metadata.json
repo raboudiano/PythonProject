@@ -1,0 +1,47 @@
+{
+  "selected_stage_model": "Logistic Regression",
+  "bundle_path": "Models\\stage_bundle.joblib",
+  "feature_names": [
+    "Drug",
+    "Age",
+    "Sex",
+    "Ascites",
+    "Hepatomegaly",
+    "Spiders",
+    "Edema",
+    "Bilirubin",
+    "Cholesterol",
+    "Albumin",
+    "Copper",
+    "Alk_Phos",
+    "SGOT",
+    "Tryglicerides",
+    "Platelets",
+    "Prothrombin"
+  ],
+  "feature_base_columns": [
+    "Drug",
+    "Age",
+    "Sex",
+    "Ascites",
+    "Hepatomegaly",
+    "Spiders",
+    "Edema",
+    "Bilirubin",
+    "Cholesterol",
+    "Albumin",
+    "Copper",
+    "Alk_Phos",
+    "SGOT",
+    "Tryglicerides",
+    "Platelets",
+    "Prothrombin"
+  ],
+  "trained_metrics": {
+    "stage_test_accuracy": 0.2727272727272727,
+    "stage_test_precision": 0.26515151515151514,
+    "stage_test_recall": 0.2727272727272727,
+    "stage_test_f1_weighted": 0.2677685950413223,
+    "stage_test_f1_macro": 0.19090909090909092
+  }
+}

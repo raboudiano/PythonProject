@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cirrhosis API Frontend</title>
+  <title>Stage Predictor</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      background: linear-gradient(130deg, #fef3c7 0%, #fff7ed 40%, #e0f2fe 100%);
     }
     .page-wrap {
       max-width: 1100px;
@@ -19,18 +19,18 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
     .editor-area {
-      min-height: 380px;
+      min-height: 360px;
       font-family: Consolas, Monaco, monospace;
       font-size: 0.9rem;
       resize: vertical;
     }
     .result-area {
-      min-height: 380px;
+      min-height: 300px;
       margin: 0;
       border-radius: 0.75rem;
       padding: 1rem;
-      background: #111827;
-      color: #d1fae5;
+      background: #082f49;
+      color: #e0f2fe;
       font-size: 0.86rem;
       overflow-x: auto;
     }
@@ -38,13 +38,9 @@
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background-color: #198754;
+      background-color: #0ea5e9;
       display: inline-block;
       margin-right: 8px;
-    }
-    .meaning-list code {
-      font-weight: 700;
-      font-size: 0.86rem;
     }
   </style>
 </head>
@@ -56,16 +52,15 @@
           <div>
             <h1 class="h3 mb-2 fw-bold">
               <span class="brand-dot"></span>
-              Cirrhosis Prediction API
+              Disease Stage Predictor
             </h1>
-            <p class="text-secondary mb-0">Load sample input, adjust values, and test live predictions instantly.</p>
+            <p class="text-secondary mb-0">Dedicated page to predict cirrhosis disease stage (1 to 4).</p>
           </div>
           <div class="d-flex gap-2">
-            <a class="btn btn-outline-dark btn-sm" href="/">Home</a>
-            <a class="btn btn-outline-info btn-sm" href="/stage">Stage Page</a>
-            <a class="btn btn-outline-primary btn-sm" href="/status-ndays">Status + N_Days Page</a>
-            <a class="btn btn-outline-secondary btn-sm" href="/docs" target="_blank">Swagger</a>
-            <a class="btn btn-outline-secondary btn-sm" href="/model/info" target="_blank">Model Info</a>
+            <a class="btn btn-outline-secondary btn-sm" href="/">Home</a>
+            <a class="btn btn-outline-secondary btn-sm" href="/status">Status Page</a>
+            <a class="btn btn-outline-secondary btn-sm" href="/status-ndays">Status + N_Days Page</a>
+            <a class="btn btn-outline-secondary btn-sm" href="/model/stage-info" target="_blank">Model Info</a>
           </div>
         </div>
       </div>
@@ -81,7 +76,7 @@
           <div class="card-body p-4">
             <div class="d-flex gap-2 mb-3">
               <button id="load-sample" class="btn btn-primary">Load Sample</button>
-              <button id="predict" class="btn btn-success">Predict</button>
+              <button id="predict" class="btn btn-success">Predict Stage</button>
             </div>
             <textarea id="payload" class="form-control editor-area">{
   "features": {}
@@ -95,24 +90,19 @@
           <div class="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
             <div>
               <h2 class="h5 mb-1">Prediction Response</h2>
-              <p class="text-secondary mb-0 small">Live response from <code>/predict</code></p>
+              <p class="text-secondary mb-0 small">Live response from <code>/predict/stage</code></p>
             </div>
             <span id="status-badge" class="badge text-bg-secondary">Idle</span>
           </div>
           <div class="card-body p-4">
             <pre id="result" class="result-area">No request sent yet.</pre>
-            <div class="alert alert-light border mt-3 mb-0" id="prediction-meaning">
-              <div class="fw-semibold mb-2">Prediction meaning</div>
-              <div class="text-secondary small">Run a prediction to see what the predicted class means.</div>
+            <div class="alert alert-light border mt-3 mb-0" id="summary-box">
+              <div class="fw-semibold mb-2">Summary</div>
+              <div class="text-secondary small">Run a prediction to view the estimated stage.</div>
             </div>
             <div class="card mt-3 border-0 bg-body-secondary">
               <div class="card-body py-3">
-                <div class="small text-secondary mb-2">Target label reference</div>
-                <ul class="list-unstyled mb-0 small meaning-list">
-                  <li><code>C</code>: Censored (no death observed during follow-up)</li>
-                  <li><code>CL</code>: Censored due to liver transplant</li>
-                  <li><code>D</code>: Death</li>
-                </ul>
+                <div class="small text-secondary">Stage labels range from <strong>1</strong> (less severe) to <strong>4</strong> (more severe).</div>
               </div>
             </div>
           </div>
@@ -127,13 +117,7 @@
     const statusBadge = document.getElementById('status-badge');
     const loadButton = document.getElementById('load-sample');
     const predictButton = document.getElementById('predict');
-    const predictionMeaningEl = document.getElementById('prediction-meaning');
-
-    const CLASS_MEANINGS = {
-      C: 'Censored: no death event observed during follow-up period.',
-      CL: 'Censored (Liver Transplant): patient received a liver transplant.',
-      D: 'Death: patient outcome corresponds to death event.'
-    };
+    const summaryBox = document.getElementById('summary-box');
 
     function setStatus(state, text) {
       statusBadge.className = `badge ${state}`;
@@ -148,16 +132,14 @@
         predictButton.textContent = 'Predicting...';
       } else {
         loadButton.textContent = 'Load Sample';
-        predictButton.textContent = 'Predict';
+        predictButton.textContent = 'Predict Stage';
       }
     }
 
-    function renderPredictionMeaning(predictionLabel) {
-      const meaning = CLASS_MEANINGS[predictionLabel] || 'Unknown class label returned by model.';
-      predictionMeaningEl.innerHTML = `
-        <div class="fw-semibold mb-2">Prediction meaning</div>
-        <div class="mb-1"><span class="badge text-bg-dark">${predictionLabel}</span></div>
-        <div class="small">${meaning}</div>
+    function renderSummary(data) {
+      summaryBox.innerHTML = `
+        <div class="fw-semibold mb-2">Summary</div>
+        <div class="small">Predicted Stage: <span class="badge text-bg-dark">${data.predicted_stage}</span></div>
       `;
     }
 
@@ -165,16 +147,16 @@
       setBusy(true);
       setStatus('text-bg-primary', 'Loading');
       try {
-        const response = await fetch('/model/sample-input');
+        const response = await fetch('/model/stage-sample-input');
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
         const data = await response.json();
         payloadEl.value = JSON.stringify(data, null, 2);
-        resultEl.textContent = 'Sample payload loaded. You can now modify feature values and click Predict.';
-        predictionMeaningEl.innerHTML = `
-          <div class="fw-semibold mb-2">Prediction meaning</div>
-          <div class="text-secondary small">Run a prediction to see what the predicted class means.</div>
+        resultEl.textContent = 'Sample payload loaded. You can edit values then run stage prediction.';
+        summaryBox.innerHTML = `
+          <div class="fw-semibold mb-2">Summary</div>
+          <div class="text-secondary small">Run a prediction to view the estimated stage.</div>
         `;
         setStatus('text-bg-info', 'Sample Ready');
       } catch (error) {
@@ -190,7 +172,7 @@
       setStatus('text-bg-warning', 'Predicting');
       try {
         const payload = JSON.parse(payloadEl.value);
-        const response = await fetch('/predict', {
+        const response = await fetch('/predict/stage', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -201,19 +183,19 @@
 
         if (!response.ok) {
           setStatus('text-bg-danger', 'Invalid Request');
-          predictionMeaningEl.innerHTML = `
-            <div class="fw-semibold mb-2">Prediction meaning</div>
-            <div class="text-danger small">Prediction failed. Check payload keys and try again.</div>
+          summaryBox.innerHTML = `
+            <div class="fw-semibold mb-2">Summary</div>
+            <div class="text-danger small">Prediction failed. Check payload keys and value types.</div>
           `;
           return;
         }
 
-        renderPredictionMeaning(data.prediction);
+        renderSummary(data);
         setStatus('text-bg-success', 'Success');
       } catch (error) {
         resultEl.textContent = `Request failed: ${error.message}`;
-        predictionMeaningEl.innerHTML = `
-          <div class="fw-semibold mb-2">Prediction meaning</div>
+        summaryBox.innerHTML = `
+          <div class="fw-semibold mb-2">Summary</div>
           <div class="text-danger small">Request error: ${error.message}</div>
         `;
         setStatus('text-bg-danger', 'Error');

@@ -35,15 +35,28 @@ Deployment artifacts are stored in:
 ## API endpoints
 
 - `GET /health`
+- `GET /` (modern home page)
+- `GET /status` (status prediction page)
 - `GET /model/info`
 - `GET /model/sample-input`
 - `POST /predict`
+- `GET /status-ndays` (second UI page)
+- `GET /model/status-ndays-info`
+- `GET /model/status-ndays-sample-input`
+- `POST /predict/status-ndays`
+- `GET /stage` (stage prediction page)
+- `GET /model/stage-info`
+- `GET /model/stage-sample-input`
+- `POST /predict/stage`
 
 Swagger UI:
 - `http://127.0.0.1:8000/docs`
 
 Frontend:
-- `http://127.0.0.1:8000/`
+- `http://127.0.0.1:8000/` (home)
+- `http://127.0.0.1:8000/status`
+- `http://127.0.0.1:8000/status-ndays`
+- `http://127.0.0.1:8000/stage`
 
 ## Local run
 
@@ -54,7 +67,8 @@ uvicorn api:app --reload
 
 Then open:
 - Swagger: `http://127.0.0.1:8000/docs`
-- Frontend: `http://127.0.0.1:8000/`
+- Home: `http://127.0.0.1:8000/`
+- Status predictor: `http://127.0.0.1:8000/status`
 
 ## Docker run
 
@@ -65,7 +79,8 @@ docker compose up --build
 Then open:
 - API: `http://127.0.0.1:8000`
 - Swagger: `http://127.0.0.1:8000/docs`
-- Frontend: `http://127.0.0.1:8000/`
+- Home: `http://127.0.0.1:8000/`
+- Status predictor: `http://127.0.0.1:8000/status`
 
 ## How to test (recommended order)
 

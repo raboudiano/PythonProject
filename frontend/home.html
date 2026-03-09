@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cirrhosis Intelligence Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #10243f;
+      --ink-soft: #446187;
+      --paper: #f8fafc;
+      --card: rgba(255, 255, 255, 0.8);
+      --line: rgba(16, 36, 63, 0.12);
+      --accent-1: #0ea5a4;
+      --accent-2: #f97316;
+      --accent-3: #2563eb;
+      --shadow: 0 24px 48px rgba(16, 36, 63, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 700px at 95% 0%, rgba(249, 115, 22, 0.18), transparent 62%),
+        radial-gradient(900px 600px at 0% 15%, rgba(14, 165, 164, 0.2), transparent 56%),
+        linear-gradient(145deg, #f0f9ff 0%, #fefce8 45%, #f8fafc 100%);
+      overflow-x: hidden;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(10px);
+      opacity: 0.35;
+      pointer-events: none;
+      animation: drift 14s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 220px;
+      height: 220px;
+      background: #22d3ee;
+      top: -60px;
+      right: 7%;
+    }
+
+    .orb-2 {
+      width: 180px;
+      height: 180px;
+      background: #fb7185;
+      bottom: 8%;
+      left: -40px;
+      animation-delay: 2.5s;
+    }
+
+    .wrap {
+      width: min(1140px, 92%);
+      margin: 0 auto;
+      padding: 34px 0 54px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+      font-size: 1.04rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 0 0 7px rgba(14, 165, 164, 0.12);
+    }
+
+    .nav-links {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.64));
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 4vw, 44px);
+      position: relative;
+      overflow: hidden;
+      animation: rise 520ms ease-out;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: -90px;
+      width: 300px;
+      height: 300px;
+      border-radius: 48px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.16), rgba(14, 165, 164, 0.18));
+      transform: rotate(18deg);
+    }
+
+    .kicker {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+      font-size: clamp(1.8rem, 3.3vw, 3.1rem);
+      line-height: 1.08;
+      max-width: 760px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      max-width: 780px;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+      animation: rise 580ms ease both;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 90ms;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 170ms;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-self: flex-start;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      border: 1px solid transparent;
+      margin-bottom: 12px;
+    }
+
+    .tag-status {
+      background: rgba(37, 99, 235, 0.12);
+      border-color: rgba(37, 99, 235, 0.3);
+      color: #1d4ed8;
+    }
+
+    .tag-stage {
+      background: rgba(14, 165, 164, 0.12);
+      border-color: rgba(14, 165, 164, 0.3);
+      color: #0f766e;
+    }
+
+    .tag-survival {
+      background: rgba(249, 115, 22, 0.12);
+      border-color: rgba(249, 115, 22, 0.3);
+      color: #c2410c;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      margin: 10px 0 16px;
+      color: var(--ink-soft);
+      font-size: 0.93rem;
+      line-height: 1.55;
+      flex-grow: 1;
+    }
+
+    .cta {
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 600;
+      color: white;
+      transition: transform 170ms ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+    }
+
+    .cta-status {
+      background: linear-gradient(120deg, #1d4ed8, #2563eb);
+    }
+
+    .cta-stage {
+      background: linear-gradient(120deg, #0f766e, #14b8a6);
+    }
+
+    .cta-survival {
+      background: linear-gradient(120deg, #ea580c, #f97316);
+    }
+
+    .foot {
+      margin-top: 22px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero::after {
+        right: -180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <main class="wrap">
+    <div class="top-nav">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        Cirrhosis Intelligence Hub
+      </div>
+      <div class="nav-links">
+        <a class="pill" href="/docs" target="_blank">Swagger</a>
+        <a class="pill" href="/health" target="_blank">Health</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <span class="kicker">Clinical Decision Support</span>
+      <h1>One project, three prediction tracks for cirrhosis outcomes.</h1>
+      <p>
+        This platform combines machine learning and practical API tooling to estimate patient status,
+        disease stage, and survival-related timing. Choose the prediction workflow you want, test with real sample payloads,
+        and inspect model outputs in a single experience.
+      </p>
+    </section>
+
+    <section class="grid" aria-label="Prediction choices">
+      <article class="card">
+        <span class="tag tag-status">Status Classifier</span>
+        <h3>Predict Status</h3>
+        <p>
+          Multi-class classification for clinical outcome status (`C`, `CL`, `D`) using the current deployed model and feature schema.
+        </p>
+        <a class="cta cta-status" href="/status">Open Status Predictor</a>
+      </article>
+
+      <article class="card">
+        <span class="tag tag-stage">Stage Classifier</span>
+        <h3>Predict Disease Stage</h3>
+        <p>
+          Stage model estimates disease stage from 1 to 4 using a dedicated training bundle designed for stage inference.
+        </p>
+        <a class="cta cta-stage" href="/stage">Open Stage Predictor</a>
+      </article>
+
+      <article class="card">
+        <span class="tag tag-survival">Dual Output</span>
+        <h3>Predict Status + N_Days</h3>
+        <p>
+          Combined workflow that predicts patient status and estimates `N_Days` in one request for richer planning and analysis.
+        </p>
+        <a class="cta cta-survival" href="/status-ndays">Open Dual Predictor</a>
+      </article>
+    </section>
+
+    <section class="foot">
+      Tip: start from any predictor page with <strong>Load Sample</strong>, then edit features and run a live inference.
+    </section>
+  </main>
+</body>
+</html>

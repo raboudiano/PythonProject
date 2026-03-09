@@ -1,0 +1,51 @@
+{
+  "selected_status_model": "Logistic Regression",
+  "selected_ndays_model": "RandomForestRegressor",
+  "bundle_path": "Models\\status_ndays_bundle.joblib",
+  "feature_names": [
+    "Drug",
+    "Age",
+    "Sex",
+    "Ascites",
+    "Hepatomegaly",
+    "Spiders",
+    "Edema",
+    "Bilirubin",
+    "Cholesterol",
+    "Albumin",
+    "Copper",
+    "Alk_Phos",
+    "SGOT",
+    "Tryglicerides",
+    "Platelets",
+    "Prothrombin",
+    "Stage"
+  ],
+  "feature_base_columns": [
+    "Drug",
+    "Age",
+    "Sex",
+    "Ascites",
+    "Hepatomegaly",
+    "Spiders",
+    "Edema",
+    "Bilirubin",
+    "Cholesterol",
+    "Albumin",
+    "Copper",
+    "Alk_Phos",
+    "SGOT",
+    "Tryglicerides",
+    "Platelets",
+    "Prothrombin",
+    "Stage"
+  ],
+  "trained_metrics": {
+    "status_test_accuracy": 0.7575757575757576,
+    "status_test_precision": 0.7407407407407407,
+    "status_test_recall": 0.7575757575757576,
+    "status_test_f1": 0.7486631016042781,
+    "ndays_test_mae": 694.8627272727272,
+    "ndays_test_r2": 0.18902875361459193
+  }
+}
